@@ -12,16 +12,14 @@ import routerBindings, {
 } from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import { App as AntdApp } from "antd";
+import { DashboardOutlined } from "@ant-design/icons";
+
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 
-import { AntdCreateInferencer, AntdEditInferencer, AntdInferencer, AntdShowInferencer } from "@refinedev/inferencer/antd";
 import { DashboardPage } from "./pages/dashboard";
-import { ProductList } from "./pages/product";
-import { ProductEdit } from "./pages/product/edit";
-import { ProductShow } from "./pages/product/show";
-import { ProductCreate } from "./pages/product/create";
-import { DashboardOutlined } from "@ant-design/icons";
+import { ProductList, ProductEdit, ProductShow, ProductCreate } from "./pages/product";
+import { CategoryCreate, CategoryEdit, CategoryList, CategoryShow } from "./pages/category";
 
 const API_URL = "https://api.fake-rest.refine.dev";
 const METRICS_URL = "https://api.finefoods.refine.dev";
@@ -56,8 +54,8 @@ function App() {
                     name: "products",
                     list: "/products",
                     show: "/products/:id",
-                    edit: "/products/edit/:id",
-                    clone: "/products/clone/:id",
+                    edit: "/products/:id/edit",
+                    clone: "/products/:id/clone",
                     create: "/products/create",
                     meta: {
                       label: "Products", canDelete: true,
@@ -66,9 +64,9 @@ function App() {
                   {
                     name: "categories",
                     list: "/categories",
-                    show: "/categories/show/:id",
-                    edit: "/categories/edit/:id",
-                    clone: "/categories/clone/:id",
+                    show: "/categories/:id",
+                    edit: "/categories/:id/edit",
+                    clone: "/categories/:id/clone",
                     create: "/categories/create",
                     meta: {
                       label: "Categories", canDelete: true,
@@ -94,18 +92,18 @@ function App() {
                     />
                     <Route path="/products">
                       <Route index element={<ProductList />} />
-                      <Route path=":id" element={<ProductShow />} />
-                      <Route path="edit/:id" element={<ProductEdit />} />
-                      <Route path="clone/:id" element={<ProductCreate />} />
                       <Route path="create" element={<ProductCreate />} />
-                    </Route>
-                    <Route path="posts">
-                      <Route index element={<AntdInferencer />} />
-                      <Route path="create" element={<AntdInferencer />} />
+                      <Route path=":id" element={<ProductShow />} />
+                      <Route path=":id/edit" element={<ProductEdit />} />
+                      <Route path=":id/clone" element={<ProductCreate />} />
+
                     </Route>
                     <Route path="categories">
-                      <Route index element={<AntdInferencer />} />
-                      <Route path="show/:id" element={<AntdInferencer />} />
+                      <Route index element={<CategoryList />} />
+                      <Route path="create" element={<CategoryCreate />} />
+                      <Route path=":id" element={<CategoryShow />} />
+                      <Route path=":id/edit" element={<CategoryEdit />} />
+                      <Route path=":id/clone" element={<CategoryCreate />} />
                     </Route>
                     <Route path="/dashboard">
                       <Route index element={<DashboardPage />} />
